@@ -5,7 +5,7 @@ import { Provider } from "react-redux"
 import rootReducer from "./components/redux/reducers"
 import { createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk"; 
-import App from './app';
+import App from './App';
 import setupAxiosInterceptors from './components/common/services/axiosInterceptor';
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
