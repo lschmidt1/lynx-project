@@ -1,0 +1,18 @@
+@import "../../index";
+
+#wrapper{
+  @include flexbox();
+  flex-direction: row;
+  justify-content: space-between;
+  background: $light-gray;
+  width: 100%;
+
+  .leftContainer{
+    flex-direction: row;
+  }
+
+  .rightContainer{
+    flex-direction: row;
+  }
+
+}

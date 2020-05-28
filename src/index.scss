@@ -1,0 +1,920 @@
+@import "reset";
+
+// COLORS
+$yellow   : #ffe076;
+$lightBlue: #009697;
+$darkBlue : #006363;
+$petroleum: #002422;
+$bone     : #f5f5f5;
+$white        : #f0f0f0;
+$gray         : #3a3a47;
+$light-gray        : #808080;
+$black        : #292933;
+$highlight    : #f9ae1a;
+$red         : #f91a1a;
+$green        : #42b069;
+$light    : #dddddd;
+$opaque        : #c0c0c0;
+$approve: #3ca12f;
+$reject : #d35e36;
+$shadow       : rgba(0, 0, 0, 0.2);
+$dark_shadow: rgba(0, 0, 0, 0.5);
+
+// FONTS
+$textFont : "Roboto";
+$titleFont: "Raleway";
+
+//-------- FONTS --------
+$fuente: "Roboto";
+$h1: 1.5rem;
+$h2: 1.1rem;
+$h3: 1rem;
+$p: 0.9rem;
+
+//-------- SIZES --------
+$header: 4rem;
+$icono: 2rem;
+$corner: 0.5rem;
+
+//-------- MEDIAQUERIES --------
+$tablet: 768px;
+$desktop: 1024px;
+$desktop_m: 1280px;
+$desktop_xl: 1920px;
+
+//-------- MIXINS MEDIA QUERIES --------
+@mixin phone {
+  @media (max-width: #{$tablet - 1px}) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: #{$tablet}) and (max-width: #{$desktop - 1px}) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: #{$desktop}) and (max-width: #{$desktop_m - 1px}) {
+    @content;
+  }
+}
+
+@mixin desktop_hd {
+  @media (min-width: #{$desktop_m}) and (max-width: #{$desktop_xl}) {
+    @content;
+  }
+}
+
+@mixin desktop_uhd {
+  @media (min-width: #{$desktop_xl + 1px}) {
+    @content;
+  }
+}
+
+@mixin devices {
+  @media (max-width: #{$desktop_m - 1px}) {
+    @content;
+  }
+}
+
+@mixin portrait {
+  @media (orientation: portrait) {
+    @content;
+  }
+}
+
+@mixin ie10n11 {
+
+  @media all and (-ms-high-contrast: none),
+  (-ms-high-contrast: active) {
+    @content;
+  }
+}
+
+@mixin edge {
+  @supports (-ms-ime-align: auto) {
+    @content;
+  }
+}
+
+//-------- MIXINS ANIMACIONES --------
+@mixin keyframes($anin_name) {
+  @-webkit-keyframes #{$anin_name} {
+    @content;
+  }
+
+  @-moz-keyframes #{$anin_name} {
+    @content;
+  }
+
+  @-ms-keyframes #{$anin_name} {
+    @content;
+  }
+
+  @-o-keyframes #{$anin_name} {
+    @content;
+  }
+
+  @keyframes #{$anin_name} {
+    @content;
+  }
+}
+
+@mixin animacion($str) {
+  -webkit-animation: #{$str};
+  -moz-animation   : #{$str};
+  -ms-animation    : #{$str};
+  -o-animation     : #{$str};
+  animation        : #{$str};
+}
+
+@include keyframes(menu_key) {
+  0% {
+    opacity: 0;
+    display: none;
+  }
+
+  70% {
+    opacity: 0;
+    display: flex;
+  }
+
+  100% {
+    opacity: 1;
+    display: flex;
+  }
+}
+
+@mixin toon($e: all, $t: 0.5s, $d: 0s) {
+  transition: $e $t cubic-bezier(0.8, 0, 0.2, 1) $d;
+}
+
+@mixin loading_dots {
+  position: relative;
+  width   : 4rem;
+  height  : 4rem;
+
+  div {
+    position                 : absolute;
+    top                      : 27px;
+    width                    : 11px;
+    height                   : 11px;
+    border-radius            : 50%;
+    background               : $darkBlue;
+    animation-timing-function: cubic-bezier(0, 1, 1, 0);
+  }
+
+  div:nth-child(1) {
+    left     : 6px;
+    animation: lds-ellipsis1 0.6s infinite;
+  }
+
+  div:nth-child(2) {
+    left     : 6px;
+    animation: lds-ellipsis2 0.6s infinite;
+  }
+
+  div:nth-child(3) {
+    left     : 26px;
+    animation: lds-ellipsis2 0.6s infinite;
+  }
+
+  div:nth-child(4) {
+    left     : 45px;
+    animation: lds-ellipsis3 0.6s infinite;
+  }
+
+  @keyframes lds-ellipsis1 {
+    0% {
+      transform: scale(0);
+    }
+
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  @keyframes lds-ellipsis3 {
+    0% {
+      transform: scale(1);
+    }
+
+    100% {
+      transform: scale(0);
+    }
+  }
+
+  @keyframes lds-ellipsis2 {
+    0% {
+      transform: translate(0, 0);
+    }
+
+    100% {
+      transform: translate(19px, 0);
+    }
+  }
+}
+
+@mixin loading_spinner($t: 2rem, $s: $darkBlue, $r: $opaque, $m: 1rem) {
+  width           : $t;
+  height          : $t;
+  border          : $t/5 solid $r;
+  border-radius   : 50%;
+  border-top-color: $s;
+  margin          : $m;
+  animation       : spin 1s ease-in-out infinite;
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+//-------- MIXINS --------
+@mixin flexbox($jc: center, $ai: center, $dir: column) {
+  justify-content: $jc;
+  align-items    : $ai;
+
+  @if $dir==row {
+    flex-direction: $dir;
+  }
+}
+
+@mixin button($c: white,
+  $bg: $darkBlue,
+  $hover_c: white,
+  $hover_bg: $petroleum) {
+  @include toon();
+  height          : 2.25rem;
+  color           : $c;
+  background-color: $bg;
+  align-items     : center;
+  border          : none;
+  border-radius   : 200px;
+  font-weight     : bold;
+  padding         : 0.5rem 1rem;
+  cursor          : pointer;
+
+  a {
+    color: $c;
+  }
+
+  @if $hover_c {
+    &:hover {
+      color     : $hover_c;
+      background: $hover_bg;
+    }
+  }
+}
+
+@mixin input($bc: $black, $fc: $black) {
+  background   : none;
+  border       : none;
+  color        : $fc;
+  border-bottom: 1px solid $bc;
+}
+
+@mixin filter($dir, $w: 12rem, $bg: white, $c: $black) {
+  @include flexbox(center, center, row);
+
+  @if $dir=="izq" {
+    svg {
+      position: relative;
+      left    : 0.25rem;
+    }
+
+    select,
+    input {
+      position: relative;
+      right   : 1.25rem;
+    }
+  }
+
+  @if $dir=="right" {
+    svg {
+      position: relative;
+      left    : 1.65rem;
+    }
+  }
+
+  select,
+  input {
+    width        : $w;
+    height       : 1.7rem;
+    background   : $bg;
+    color        : $c;
+    font-size    : 0.8rem;
+    padding      : 0.25rem 0.25rem 0.25rem 2rem;
+    border       : 1px solid $c;
+    border-radius: 8rem;
+  }
+
+  svg {
+    width  : 1.5rem;
+    height : 1.5rem;
+    fill   : $c;
+    z-index: 1;
+  }
+}
+
+@mixin flipbttn($degs: rotate(90deg),
+  $degh: rotate(190deg),
+  $bgs: $darkBlue,
+  $bgh: white,
+  $fills: $bone,
+  $fillh: $darkBlue) {
+  margin-right : 1.2rem;
+  border       : solid 1px $darkBlue;
+  margin-left  : auto;
+  background   : wheat;
+  width        : 2.5rem;
+  height       : 2.5rem;
+  border-radius: 2.5rem;
+  background   : $bgs;
+
+  >svg {
+    fill      : $fills;
+    height    : 2rem;
+    padding   : 0.3rem;
+    transform : $degs;
+    width     : 2.5rem;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  &:hover {
+    background: $bgh;
+    cursor    : pointer;
+
+    >svg {
+      fill     : $fillh;
+      transform: $degh;
+    }
+  }
+}
+
+@mixin icono($color, $hover: null) {
+  cursor: pointer;
+
+  label,
+  svg {
+    @include toon();
+  }
+
+  label {
+    cursor: pointer;
+    color : $color;
+  }
+
+  svg {
+    width     : $icono;
+    height    : $icono;
+    min-width : $icono;
+    min-height: $icono;
+    fill      : $color;
+    margin    : 1rem;
+  }
+
+  @if $hover {
+    &:hover {
+      label {
+        color: $hover;
+      }
+
+      svg {
+        fill: $hover;
+      }
+    }
+  }
+}
+
+@mixin switch() {
+  /* The switch - the box around the slider */
+  .switch {
+    position: relative;
+    display: inline-block;
+    min-width: 3rem;
+    height: 1.3rem;
+    border: 0;
+  }
+
+  /* Hide default HTML checkbox */
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  /* The slider */
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+  }
+
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 1.23rem;
+    width: 1.23rem;
+    left: 4px;
+    top: 1px;
+    background-color: white;
+    transition: 0.4s;
+  }
+
+  input:checked + .slider {
+    background-color: $verde;
+  }
+
+  input:focus + .slider {
+    box-shadow: 0 0 1px $verde;
+  }
+
+  input:checked + .slider:before {
+    -webkit-transform: translateX(1.1rem);
+    -ms-transform: translateX(1.1rem);
+    transform: translateX(1.1rem);
+  }
+
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+
+  .slider.round:before {
+    border-radius: 50%;
+  }
+}
+
+//-------- EXTENDS --------
+
+%sectionMarker {
+  background   : $petroleum;
+  border-radius: 0 2rem 2rem 0;
+  position     : fixed;
+  top          : $header + 0.5rem;
+  left         : 0;
+  z-index      : 9;
+
+  >h1 {
+    color        : $bone;
+    margin-top   : auto;
+    margin-bottom: auto;
+  }
+}
+
+%filtersMarker {
+  @include flexbox(space-arround, center, row);
+  background   : $bone;
+  border-radius: 2rem 0 0 2rem;
+  position     : fixed;
+  top          : $header + 0.5rem;
+  right        : 0;
+  z-index      : 2;
+
+  >h1 {
+    color    : $petroleum;
+    font-size: 0.8rem;
+    margin   : 0.5rem;
+  }
+
+  >input,
+  select {
+    font-size       : 0.7rem;
+    font-family     : $titleFont;
+    width           : 5rem;
+    margin          : 0.7rem;
+    color           : $petroleum;
+    height          : 1.25rem;
+    background-color: transparent;
+    cursor          : pointer;
+  }
+}
+
+%frontCard {
+  background: $bone;
+  padding-top: 0.5rem;
+
+  > div {
+    display: flex;
+    flex-direction: row;
+    padding-top: 0.5rem;
+
+    &:nth-child(1) {
+      > span {
+        &:first-child {
+          background: $darkBlue;
+          padding: 0.3rem;
+          border-radius: 0 1rem 1rem 0;
+          width: 3rem;
+          height: 1.6rem;
+
+          > svg {
+            fill: white;
+            height: 1rem;
+            width: 1rem;
+          }
+        }
+        &:nth-child(3) {
+          @include flipbttn($degs: rotate(0deg), $degh: rotate(0deg));
+          > svg {
+            width: 100%;
+            height: 100%;
+          }
+        }
+        &:nth-child(4) {
+          @include flipbttn();
+          margin-left: 0;
+        }
+      }
+
+      > h1 {
+        padding: 0.3rem;
+      }
+    }
+
+    &:nth-child(2) {
+      padding: 0.8rem;
+      height: 12.5rem;
+
+      > p {
+        font-family: $textFont;
+        font-size: 0.7rem;
+        color: $petroleum;
+        font-weight: lighter;
+        line-height: 1rem;
+      }
+    }
+
+    &:nth-child(3) {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      > div {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+
+        svg {
+          width: 2rem;
+          height: 2rem;
+          padding: 0.5rem;
+          fill: $petroleum;
+        }
+
+        p {
+          font-size: 0.8rem;
+          margin: 0;
+          color: $petroleum;
+          margin-right: auto;
+          font-family: $titleFont;
+          text-transform: uppercase;
+        }
+      }
+    }
+
+    &:nth-child(4) {
+      @include flexbox(space-between, center);
+      padding: 0.5rem;
+
+      > p {
+        font-family: $titleFont;
+        font-size: 0.8rem;
+      }
+
+      > div {
+        height: 0.5rem;
+        width: 70%;
+        border: solid 1px black;
+        border-radius: 1rem;
+        background: white;
+        margin-left: 1rem;
+
+        > span {
+          width: 0%;
+          height: 100%;
+          background: $yellow;
+          border-radius: 1rem;
+        }
+      }
+    }
+  }
+}
+
+%backCard {
+  @include flexbox(flex-start, center, row);
+  transform: rotateY(0deg);
+  background: $bone;
+
+  > div {
+    height: 23rem;
+
+    &:nth-child(1) {
+      background: $petroleum;
+      width: 20%;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0.5rem 0 0 0.5rem;
+
+      > h1 {
+        color: $white;
+        transform: rotate(270deg);
+        letter-spacing: 0.5rem;
+        font-size: 2rem;
+      }
+    }
+
+    &:nth-child(2) {
+      width: 60%;
+      @include flexbox(flex-start, flex-start, column);
+
+      > span {
+        padding: 1rem 0 0 1rem;
+        display: flex;
+        flex-direction: row;
+
+        > h1 {
+          margin-left: 0.5rem;
+          font-size: 0.7rem;
+        }
+
+        &:hover {
+          cursor: pointer;
+
+          > h1 {
+            color: $yellow;
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+
+    &:nth-child(3) {
+      @include flexbox(flex-start, center, column);
+      background: $darkBlue;
+      width: 20%;
+      padding-top: 1rem;
+      border-radius: 0 0.5rem 0.5rem 0;
+
+      > div {
+        @include flipbttn(
+          $degs: rotate(190deg),
+          $degh: rotate(360deg),
+          $bgs: white,
+          $bgh: $darkBlue,
+          $fills: $darkBlue,
+          $fillh: $bone
+        );
+        margin-bottom:0.5rem;
+      }
+
+      > span {
+        @include flipbttn(
+          $degs: rotate(0deg),
+          $degh: rotate(0deg),
+          $bgs: $white,
+          $bgh: $darkBlue,
+          $fills: $darkBlue,
+          $fillh: $bone
+        );
+        margin-bottom:0.5rem;
+        > svg {
+          width: 100%;
+          height: 100%;
+        }
+      }
+
+      > svg {
+        fill: $white;
+        width: 2rem;
+        height: 2rem;
+        padding: 0.5rem;
+      }
+
+      > p {
+        color: white;
+        text-transform: uppercase;
+        font-size: 0.6rem;
+      }
+    }
+  }
+}
+
+%shadow {
+  box-shadow: 0px 0px 10px #00000033;
+}
+
+%card {
+  border-radius: 0.5rem;
+  @extend %shadow;
+  background: #f5f5f5;
+}
+
+%modal_shadow {
+  position        : fixed;
+  top             : 0;
+  left            : 0;
+  width           : 100%;
+  height          : 100%;
+  background-color: $dark_shadow;
+  backdrop-filter : blur(4px);
+  transition      : all 1.3s;
+  z-index         : 10;
+}
+
+%tickets_table {
+  width        : 95%;
+  margin-bottom: 2rem;
+
+  th.hide,
+  td.hide {
+    @include devices {
+      display   : none;
+      visibility: hidden;
+    }
+  }
+
+  th,
+  td {
+    text-align    : center;
+    vertical-align: middle;
+    padding       : 1rem 0.3rem;
+    cursor        : pointer;
+  }
+
+  thead {
+    font-weight   : bold;
+    text-transform: capitalize;
+
+    th {
+      @include toon();
+      background: $white;
+      position  : sticky;
+      top       : 0;
+      box-shadow: 0 1px 0 0 $highlight;
+
+      &:hover,
+      &.ordered {
+        color: $highlight;
+
+        span {
+          display     : inline;
+          position    : absolute;
+          padding-left: 0.5rem;
+          font-weight : normal;
+          font-size   : 1rem;
+        }
+      }
+
+      span {
+        display: none;
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      border-bottom: 1px solid $opaque;
+
+      &:last-child {
+        border-bottom: 1px solid $highlight;
+      }
+
+      &:hover {
+        background: $light;
+      }
+    }
+
+    td {
+      white-space  : nowrap;
+      overflow     : hidden;
+      text-overflow: ellipsis;
+
+      &.short {
+        text-align: left;
+        min-width : 5rem;
+        max-width : 14rem;
+      }
+
+      &.icon {
+        display    : flex;
+        align-items: center;
+        padding    : 0.9rem 0.3rem;
+
+        div {
+          font-size     : 0.7rem;
+          color         : white;
+          text-transform: uppercase;
+          padding       : 0.2rem;
+          border-radius : 0.3rem;
+        }
+
+        img {
+          width : 1rem;
+          height: 1rem;
+        }
+
+        .doc {
+          background: cornflowerblue;
+        }
+
+        .file {
+          background: gray;
+        }
+
+        .pdf,
+        .ppt {
+          background: $red;
+        }
+
+        .xls {
+          background: forestgreen;
+        }
+
+        .xml {
+          background: orangered;
+        }
+      }
+    }
+  }
+}
+
+//-------- GLOBAL STYLES --------
+html {
+  scroll-behavior: smooth;
+}
+
+#mainRoutes {
+  display       : flex;
+  flex-direction: column;
+}
+
+body {
+  background : white;
+  font-family: $textFont;
+  font-size  : 0.9rem;
+  overflow-x : hidden;
+}
+
+h1 {
+  font-size     : 1rem;
+  font-weight   : bold;
+  font-family   : $titleFont;
+  color         : $petroleum;
+  text-transform: uppercase;
+}
+
+h2 {
+  font-size  : 1rem;
+  font-weight: normal;
+  font-family: $textFont;
+}
+
+h6 {
+  font-size  : 1.5rem;
+  font-weight: bold;
+  margin     : 2rem;
+}
+
+button,
+input[type="button"] {
+  @include button();
+  justify-content: center;
+}
+
+input,
+input:focus {
+  @include input();
+}
+
+select {
+  height         : 2.25rem;
+  -moz-appearance: none;
+}
+
+textarea {
+  line-height: 1rem;
+  overflow   : hidden;
+}
+
+#errorMsg {
+  font-family   : $titleFont;
+  font-weight   : 600;
+  text-transform: uppercase;
+  color         : $reject;
+}
+
+.tab_active {
+  color        : $darkBlue;
+  border-bottom: 2px solid $darkBlue !important;
+}
