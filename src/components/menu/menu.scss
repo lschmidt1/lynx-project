@@ -1,0 +1,15 @@
+@import "../../index";
+
+#menu {
+  @include flexbox();
+  flex-direction: row;
+  height: 1.6rem;
+  margin-top: .7rem;
+  background: $light-gray;
+  h2{
+    color: $blue;
+    font-weight: bolder;
+    margin: 1.1rem;
+    cursor: pointer;
+  }
+}

@@ -3,26 +3,28 @@
 .popup {
   position: sticky;
   display: inline-block;
-  
+  width: 15rem;
+  height: 15rem;
+  left: 80%;
+  bottom: 54%;
 
   .popuptext {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 15rem;
-    background-color: $light-gray;
+    background-color: $blue;
     color: $white;
     text-align: center;
     border-radius: 15px;
     padding: 1rem;
     position: absolute;
-    z-index: 1;
-    bottom: 90%;
-    left: 81%;
+    z-index: 999999;
 
-    button{
+    button {
       justify-self: center;
       margin-top: 1rem;
+      background: $petroleum;
     }
   }
 }
